@@ -20,3 +20,8 @@ google-cloud-firestore>=2.16.0
 
 # Utilities
 python-dotenv>=1.0.0
+
+# Interactive Web Dashboard
+streamlit>=1.30.0
+plotly>=5.18.0
+
