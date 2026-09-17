@@ -5,13 +5,11 @@
 
 ---
 
-## 🚀 Live Dashboard & Instant Access
+## 🚀 Instant Live Web Dashboard (Zero Install)
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=shubhanginidixit/Quantum-Dashboard&branch=main&mainModule=dashboard.py)
-
-- **Direct Live App:** [https://quantum-dashboard-shubhanginidixit.streamlit.app/](https://quantum-dashboard-shubhanginidixit.streamlit.app/)
-- **1-Click Launch:** Click the badge above to automatically launch and run `dashboard.py` on Streamlit Cloud with zero setup required.
-- **GitHub Repository:** [https://github.com/shubhanginidixit/Quantum-Dashboard](https://github.com/shubhanginidixit/Quantum-Dashboard)
+- 🌐 **Live Web Application (GitHub Pages):** [https://shubhanginidixit.github.io/Quantum-Dashboard/](https://shubhanginidixit.github.io/Quantum-Dashboard/)
+- 💻 **Direct Offline Access:** Simply double-click [`index.html`](file:///c:/Users/Admin/OneDrive/Documents/Quantum/index.html) in your browser — zero installation or server required.
+- 📦 **GitHub Repository:** [https://github.com/shubhanginidixit/Quantum-Dashboard](https://github.com/shubhanginidixit/Quantum-Dashboard)
 
 
 ---
