@@ -5,12 +5,14 @@
 
 ---
 
-## 🚀 Live Dashboard
+## 🚀 Live Dashboard & Instant Access
 
-**[▶ Open Neutron Dashboard (Streamlit Cloud)](https://shubhanginidixit-quantum-dashboard-dashboard-xxxxxx.streamlit.app/)**
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=shubhanginidixit/Quantum-Dashboard&branch=main&mainModule=dashboard.py)
 
-> ⚠️ Replace `xxxxxx` with the actual Streamlit Cloud app hash after deployment.
-> See [Deploy to Streamlit Cloud](#deploy-to-streamlit-cloud) below.
+- **Direct Live App:** [https://quantum-dashboard-shubhanginidixit.streamlit.app/](https://quantum-dashboard-shubhanginidixit.streamlit.app/)
+- **1-Click Launch:** Click the badge above to automatically launch and run `dashboard.py` on Streamlit Cloud with zero setup required.
+- **GitHub Repository:** [https://github.com/shubhanginidixit/Quantum-Dashboard](https://github.com/shubhanginidixit/Quantum-Dashboard)
+
 
 ---
 
