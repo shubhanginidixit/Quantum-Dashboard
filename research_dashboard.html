@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,51 +10,98 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { background-color: #f8fafc; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        .sidebar { background-color: #0f172a; color: white; min-height: 100vh; padding: 24px; }
-        .card-custom { background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 20px; padding: 20px; }
-        .metric-val { font-size: 2rem; font-weight: 700; }
-        .badge-quantum { background-color: #7e22ce; color: white; }
-        .badge-classical { background-color: #1d4ed8; color: white; }
-        .text-slate-300 { color: #cbd5e1; }
-        .text-slate-400 { color: #94a3b8; }
-        .border-slate-700 { border-color: #334155 !important; }
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .sidebar {
+            background-color: #0f172a;
+            color: white;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .card-custom {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .badge-quantum {
+            background-color: #7e22ce;
+            color: white;
+        }
+
+        .badge-classical {
+            background-color: #1d4ed8;
+            color: white;
+        }
+
+        .text-slate-300 {
+            color: #cbd5e1;
+        }
+
+        .text-slate-400 {
+            color: #94a3b8;
+        }
+
+        .border-slate-700 {
+            border-color: #334155 !important;
+        }
+
         .policy-panel {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
             border-left: 5px solid #0D47A1;
             margin-top: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
+
         .policy-panel h5 {
             color: #0D47A1;
             font-weight: 700;
             margin-bottom: 12px;
         }
+
         .policy-panel ul {
             margin-bottom: 0;
             padding-left: 20px;
         }
+
         .policy-panel li {
             margin-bottom: 8px;
         }
+
         .policy-panel a {
             color: #0284c7;
             font-weight: 600;
             text-decoration: none;
         }
+
         .policy-panel a:hover {
             text-decoration: underline;
         }
+
         .sidebar a {
             text-decoration: none;
             transition: all 0.2s ease;
         }
+
         .sidebar a:hover {
             color: #38bdf8 !important;
             padding-left: 4px;
         }
+
         .switch-portal-btn {
             background: linear-gradient(135deg, #0284c7, #7c3aed);
             color: white;
@@ -67,275 +115,316 @@
             gap: 6px;
             transition: all 0.2s ease;
         }
+
         .switch-portal-btn:hover {
             color: white;
             filter: brightness(1.15);
         }
     </style>
 </head>
+
 <body>
 
-<div class="container-fluid">
-    <div class="row">
-        
-        <!-- SIDEBAR: RESEARCH FACTORS & USER CONTROLS -->
-        <div class="col-md-3 sidebar">
-            <h4 class="text-info fw-bold mb-1"><i class="fa-solid fa-atom"></i> Neutron</h4>
-            <p class="small text-slate-400">Grounded in Published Quantum & ICMR Literature</p>
-            <div class="mb-3">
-                <a href="index.html" class="switch-portal-btn w-100 justify-content-center">
-                    <i class="fa-solid fa-arrow-left"></i> Switch to Main Clinical Portal
-                </a>
-            </div>
-            <hr class="border-slate-700">
+    <div class="container-fluid">
+        <div class="row">
 
-            <!-- Dynamic Patient Risk Factors -->
-            <h6 class="text-light fw-bold mb-3">🩺 Patient Research Factors</h6>
-            
-            <label class="form-label text-slate-300 small">Age Cohort (ICMR Demographic Study)</label>
-            <select class="form-select form-select-sm mb-3" id="ageFactor" onchange="recalculateRisk()">
-                <option value="0.10">Under 35 (Low Baseline Risk)</option>
-                <option value="0.25" selected>35 - 55 (Moderate Risk Cohort)</option>
-                <option value="0.40">Above 55 (High Risk Cohort)</option>
-            </select>
-
-            <label class="form-label text-slate-300 small">Serum Cholesterol (mg/dL)</label>
-            <input type="number" class="form-control form-control-sm mb-3" id="cholFactor" value="235" onchange="recalculateRisk()" oninput="recalculateRisk()">
-
-            <label class="form-label text-slate-300 small">Qubit Budget (Encoding Capacity)</label>
-            <select class="form-select form-select-sm mb-3" id="qubitFactor" onchange="recalculateRisk()">
-                <option value="8">8 Qubits (Angle Encoding)</option>
-                <option value="12" selected>12 Qubits (ZZFeatureMap Encoding)</option>
-                <option value="16">16 Qubits (Amplitude Encoding)</option>
-            </select>
-
-            <hr class="border-slate-700">
-            <label class="form-label text-light fw-bold">Decision Risk Cutoff (FR-6.2)</label>
-            <input type="range" class="form-range" id="cutoffSlider" min="0.1" max="0.9" step="0.05" value="0.45" oninput="recalculateRisk()">
-            <div class="d-flex justify-content-between text-slate-400 small">
-                <span>0.10</span>
-                <span id="cutoffVal" class="text-info fw-bold">0.45</span>
-                <span>0.90</span>
-            </div>
-
-            <hr class="border-slate-700 mt-4">
-            <h6 class="text-light fw-bold mb-2">🔗 Verified Literature & Sources</h6>
-            <a href="https://data.icmr.org.in/" target="_blank" rel="noopener noreferrer" class="d-block text-slate-300 small mb-2">🔹 ICMR NDRR Clinical Portal <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
-            <a href="https://data.gov.in/" target="_blank" rel="noopener noreferrer" class="d-block text-slate-300 small mb-2">🔹 India Open Data Platform <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
-            <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2298218" target="_blank" rel="noopener noreferrer" class="d-block text-slate-300 small mb-2">🔹 National Quantum Mission (DST) <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
-            <a href="https://arxiv.org/abs/2108.08250" target="_blank" rel="noopener noreferrer" class="d-block text-slate-300 small mb-2">🔹 Quantum ML Medical Survey Paper <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
-            <a href="https://sih.gov.in/" target="_blank" rel="noopener noreferrer" class="d-block text-slate-300 small mb-1">🔹 Smart India Hackathon (SIH) <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
-        </div>
-
-        <!-- MAIN DASHBOARD CONTENT -->
-        <div class="col-md-9 p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 class="fw-bold text-slate-900 mb-0">Interactive Clinical Risk Dashboard</h2>
-                    <p class="text-muted small">Real-time inference combining ICMR clinical weights and Quantum VQC circuit models.</p>
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <a href="index.html" class="btn btn-outline-primary btn-sm fw-semibold">
-                        <i class="fa-solid fa-hospital-user"></i> Main Portal
+            <!-- SIDEBAR: RESEARCH FACTORS & USER CONTROLS -->
+            <div class="col-md-3 sidebar">
+                <h4 class="text-info fw-bold mb-1"><i class="fa-solid fa-atom"></i> Neutron</h4>
+                <p class="small text-slate-400">Grounded in Published Quantum & ICMR Literature</p>
+                <div class="mb-3">
+                    <a href="index.html" class="switch-portal-btn w-100 justify-content-center">
+                        <i class="fa-solid fa-arrow-left"></i> Switch to Main Clinical Portal
                     </a>
-                    <span class="badge bg-dark px-3 py-2">Source Study: ICMR-NDRR Benchmark</span>
                 </div>
+                <hr class="border-slate-700">
+
+                <!-- Dynamic Patient Risk Factors -->
+                <h6 class="text-light fw-bold mb-3">🩺 Patient Research Factors</h6>
+
+                <label class="form-label text-slate-300 small">Age Cohort (ICMR Demographic Study)</label>
+                <select class="form-select form-select-sm mb-3" id="ageFactor" onchange="recalculateRisk()">
+                    <option value="0.10">Under 35 (Low Baseline Risk)</option>
+                    <option value="0.25" selected>35 - 55 (Moderate Risk Cohort)</option>
+                    <option value="0.40">Above 55 (High Risk Cohort)</option>
+                </select>
+
+                <label class="form-label text-slate-300 small">Serum Cholesterol (mg/dL)</label>
+                <input type="number" class="form-control form-control-sm mb-3" id="cholFactor" value="235"
+                    onchange="recalculateRisk()" oninput="recalculateRisk()">
+
+                <label class="form-label text-slate-300 small">Qubit Budget (Encoding Capacity)</label>
+                <select class="form-select form-select-sm mb-3" id="qubitFactor" onchange="recalculateRisk()">
+                    <option value="8">8 Qubits (Angle Encoding)</option>
+                    <option value="12" selected>12 Qubits (ZZFeatureMap Encoding)</option>
+                    <option value="16">16 Qubits (Amplitude Encoding)</option>
+                </select>
+
+                <hr class="border-slate-700">
+                <label class="form-label text-light fw-bold">Decision Risk Cutoff (FR-6.2)</label>
+                <input type="range" class="form-range" id="cutoffSlider" min="0.1" max="0.9" step="0.05" value="0.45"
+                    oninput="recalculateRisk()">
+                <div class="d-flex justify-content-between text-slate-400 small">
+                    <span>0.10</span>
+                    <span id="cutoffVal" class="text-info fw-bold">0.45</span>
+                    <span>0.90</span>
+                </div>
+
+                <hr class="border-slate-700 mt-4">
+                <h6 class="text-light fw-bold mb-2">🔗 Verified Literature & Sources</h6>
+                <a href="https://data.icmr.org.in/" target="_blank" rel="noopener noreferrer"
+                    class="d-block text-slate-300 small mb-2">🔹 ICMR NDRR Clinical Portal <i
+                        class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+                <a href="https://data.gov.in/" target="_blank" rel="noopener noreferrer"
+                    class="d-block text-slate-300 small mb-2">🔹 India Open Data Platform <i
+                        class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+                <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2298218" target="_blank"
+                    rel="noopener noreferrer" class="d-block text-slate-300 small mb-2">🔹 National Quantum Mission
+                    (DST) <i class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+                <a href="https://arxiv.org/abs/2108.08250" target="_blank" rel="noopener noreferrer"
+                    class="d-block text-slate-300 small mb-2">🔹 Quantum ML Medical Survey Paper <i
+                        class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+                <a href="https://sih.gov.in/" target="_blank" rel="noopener noreferrer"
+                    class="d-block text-slate-300 small mb-1">🔹 Smart India Hackathon (SIH) <i
+                        class="fa-solid fa-arrow-up-right-from-square small"></i></a>
             </div>
 
-            <!-- KPI METRICS DISPLAY -->
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="card card-custom text-center">
-                        <span class="text-muted small fw-bold">Calculated Hybrid Score</span>
-                        <div class="metric-val text-primary" id="scoreDisplay">58.5%</div>
+            <!-- MAIN DASHBOARD CONTENT -->
+            <div class="col-md-9 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold text-slate-900 mb-0">Interactive Clinical Risk Dashboard</h2>
+                        <p class="text-muted small">Real-time inference combining ICMR clinical weights and Quantum VQC
+                            circuit models.</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="index.html" class="btn btn-outline-primary btn-sm fw-semibold">
+                            <i class="fa-solid fa-hospital-user"></i> Main Portal
+                        </a>
+                        <span class="badge bg-dark px-3 py-2">Source Study: ICMR-NDRR Benchmark</span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card card-custom text-center">
-                        <span class="text-muted small fw-bold">Active Risk Threshold</span>
-                        <div class="metric-val text-dark" id="thresholdDisplay">45.0%</div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom text-center">
-                        <span class="text-muted small fw-bold">Clinician Stratification</span>
-                        <div class="metric-val text-danger" id="riskLabel">HIGH RISK</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- DUAL EXPLAINABILITY (CLASSICAL VS QUANTUM) -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card card-custom">
-                        <h6 class="fw-bold text-primary mb-1">Classical Feature Importance (SHAP)</h6>
-                        <p class="small text-muted mb-3">Derived from ICMR clinical feature weights (Age, BP, Cholesterol).</p>
-                        <canvas id="shapChart" height="180"></canvas>
+                <!-- KPI METRICS DISPLAY -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card card-custom text-center">
+                            <span class="text-muted small fw-bold">Calculated Hybrid Score</span>
+                            <div class="metric-val text-primary" id="scoreDisplay">58.5%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-custom text-center">
+                            <span class="text-muted small fw-bold">Active Risk Threshold</span>
+                            <div class="metric-val text-dark" id="thresholdDisplay">45.0%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-custom text-center">
+                            <span class="text-muted small fw-bold">Clinician Stratification</span>
+                            <div class="metric-val text-danger" id="riskLabel">HIGH RISK</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card card-custom">
-                        <h6 class="fw-bold mb-1" style="color: #7e22ce;">Quantum Circuit Parameter Sensitivity</h6>
-                        <p class="small text-muted mb-3">Perturbation analysis (&epsilon;-shift) on VQC feature map gates.</p>
-                        <canvas id="quantumChart" height="180"></canvas>
+
+                <!-- DUAL EXPLAINABILITY (CLASSICAL VS QUANTUM) -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card card-custom">
+                            <h6 class="fw-bold text-primary mb-1">Classical Feature Importance (SHAP)</h6>
+                            <p class="small text-muted mb-3">Derived from ICMR clinical feature weights (Age, BP,
+                                Cholesterol).</p>
+                            <canvas id="shapChart" height="180"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-custom">
+                            <h6 class="fw-bold mb-1" style="color: #7e22ce;">Quantum Circuit Parameter Sensitivity</h6>
+                            <p class="small text-muted mb-3">Perturbation analysis (&epsilon;-shift) on VQC feature map
+                                gates.</p>
+                            <canvas id="quantumChart" height="180"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- RESEARCH BENCHMARK COMPARISON TABLE -->
-            <h4 class="fw-bold mt-4 mb-3">🔬 Published Literature Benchmark Matrix</h4>
-            <div class="card card-custom p-0 overflow-hidden mb-4">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Model Architecture</th>
-                            <th>Branch Type</th>
-                            <th>Accuracy</th>
-                            <th>Sensitivity (Recall)</th>
-                            <th>AUC-ROC</th>
-                            <th>Primary Literature Reference</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="table-success">
-                            <td><strong>Variational Quantum Classifier (VQC)</strong></td>
-                            <td><span class="badge badge-quantum">Quantum (Sim)</span></td>
-                            <td><strong>94.2%</strong></td>
-                            <td><strong>96.1%</strong></td>
-                            <td><strong>0.971</strong></td>
-                            <td><a href="https://arxiv.org/abs/2108.08250" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold">IEEE Trans. Med. Imaging <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>Quantum Support Vector Machine (QSVM)</td>
-                            <td><span class="badge badge-quantum">Quantum (Sim)</span></td>
-                            <td>92.8%</td>
-                            <td>94.0%</td>
-                            <td>0.952</td>
-                            <td><a href="https://www.nature.com/articles/s41598-022-14233-7" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold">Nature Sci. Reports <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>XGBoost Baseline</td>
-                            <td><span class="badge badge-classical">Classical</span></td>
-                            <td>91.5%</td>
-                            <td>88.5%</td>
-                            <td>0.934</td>
-                            <td><a href="https://data.icmr.org.in/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold">ICMR Clinical Baseline <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>ResNet-34 Baseline</td>
-                            <td><span class="badge badge-classical">Classical</span></td>
-                            <td>89.2%</td>
-                            <td>87.1%</td>
-                            <td>0.918</td>
-                            <td><a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold">He et al. (Deep Residual) <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <!-- RESEARCH BENCHMARK COMPARISON TABLE -->
+                <h4 class="fw-bold mt-4 mb-3">🔬 Published Literature Benchmark Matrix</h4>
+                <div class="card card-custom p-0 overflow-hidden mb-4">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Model Architecture</th>
+                                <th>Branch Type</th>
+                                <th>Accuracy</th>
+                                <th>Sensitivity (Recall)</th>
+                                <th>AUC-ROC</th>
+                                <th>Primary Literature Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-success">
+                                <td><strong>Variational Quantum Classifier (VQC)</strong></td>
+                                <td><span class="badge badge-quantum">Quantum (Sim)</span></td>
+                                <td><strong>94.2%</strong></td>
+                                <td><strong>96.1%</strong></td>
+                                <td><strong>0.971</strong></td>
+                                <td><a href="https://arxiv.org/abs/2108.08250" target="_blank" rel="noopener noreferrer"
+                                        class="text-decoration-none fw-semibold">IEEE Trans. Med. Imaging <i
+                                            class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Quantum Support Vector Machine (QSVM)</td>
+                                <td><span class="badge badge-quantum">Quantum (Sim)</span></td>
+                                <td>92.8%</td>
+                                <td>94.0%</td>
+                                <td>0.952</td>
+                                <td><a href="https://www.nature.com/articles/s41598-022-14233-7" target="_blank"
+                                        rel="noopener noreferrer" class="text-decoration-none fw-semibold">Nature Sci.
+                                        Reports <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>XGBoost Baseline</td>
+                                <td><span class="badge badge-classical">Classical</span></td>
+                                <td>91.5%</td>
+                                <td>88.5%</td>
+                                <td>0.934</td>
+                                <td><a href="https://data.icmr.org.in/" target="_blank" rel="noopener noreferrer"
+                                        class="text-decoration-none fw-semibold">ICMR Clinical Baseline <i
+                                            class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>ResNet-34 Baseline</td>
+                                <td><span class="badge badge-classical">Classical</span></td>
+                                <td>89.2%</td>
+                                <td>87.1%</td>
+                                <td>0.918</td>
+                                <td><a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener noreferrer"
+                                        class="text-decoration-none fw-semibold">He et al. (Deep Residual) <i
+                                            class="fa-solid fa-arrow-up-right-from-square small"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <!-- Verified Indian Data & Policy Registry Panel -->
-            <div class="policy-panel">
-                <h5>🌐 Verified Indian Data & Policy Resources</h5>
-                <ul>
-                    <li>
-                        <strong>ICMR NDRR Clinical Datasets:</strong> 
-                        <a href="https://data.icmr.org.in/" target="_blank" rel="noopener noreferrer">data.icmr.org.in</a> 
-                        <em>(Used for baseline biomedical verification)</em>
-                    </li>
-                    <li>
-                        <strong>National Quantum Mission (NQM) Mandate:</strong> 
-                        <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2298218" target="_blank" rel="noopener noreferrer">PIB NQM Release</a> 
-                        <em>(Healthcare priority domain alignment)</em>
-                    </li>
-                    <li>
-                        <strong>DPDP Act 2023 Compliance Framework:</strong> 
-                        <a href="https://www.meity.gov.in/data-protection-framework" target="_blank" rel="noopener noreferrer">MeitY Data Governance</a> 
-                        <em>(Audit trail and consent management standards)</em>
-                    </li>
-                </ul>
-            </div>
+                <!-- Verified Indian Data & Policy Registry Panel -->
+                <div class="policy-panel">
+                    <h5>🌐 Verified Indian Data & Policy Resources</h5>
+                    <ul>
+                        <li>
+                            <strong>ICMR NDRR Clinical Datasets:</strong>
+                            <a href="https://data.icmr.org.in/" target="_blank"
+                                rel="noopener noreferrer">data.icmr.org.in</a>
+                            <em>(Used for baseline biomedical verification)</em>
+                        </li>
+                        <li>
+                            <strong>National Quantum Mission (NQM) Mandate:</strong>
+                            <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2298218" target="_blank"
+                                rel="noopener noreferrer">PIB NQM Release</a>
+                            <em>(Healthcare priority domain alignment)</em>
+                        </li>
+                        <li>
+                            <strong>DPDP Act 2023 Compliance Framework:</strong>
+                            <a href="https://www.meity.gov.in/data-protection-framework" target="_blank"
+                                rel="noopener noreferrer">MeitY Data Governance</a>
+                            <em>(Audit trail and consent management standards)</em>
+                        </li>
+                    </ul>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    let shapChart, quantumChart;
+    <script>
+        let shapChart, quantumChart;
 
-    function initCharts() {
-        const ctxShap = document.getElementById('shapChart').getContext('2d');
-        shapChart = new Chart(ctxShap, {
-            type: 'bar',
-            data: {
-                labels: ['Serum Cholesterol', 'Age Group Factor', 'Resting BP', 'Max Heart Rate'],
-                datasets: [{ label: 'SHAP Value', data: [0.35, 0.25, 0.18, 0.10], backgroundColor: '#1d4ed8', borderRadius: 4 }]
-            },
-            options: { 
-                indexAxis: 'y', 
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } } 
-            }
-        });
+        function initCharts() {
+            const ctxShap = document.getElementById('shapChart').getContext('2d');
+            shapChart = new Chart(ctxShap, {
+                type: 'pie',
+                data: {
+                    labels: ['Serum Cholesterol', 'Age Group Factor', 'Resting BP', 'Max Heart Rate'],
+                    datasets: [{ 
+                        label: 'SHAP Value', 
+                        data: [0.35, 0.25, 0.18, 0.10], 
+                        backgroundColor: ['#1d4ed8', '#3b82f6', '#93c5fd', '#dbeafe'], 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'right', labels: { color: '#475569', font: { size: 10 } } } 
+                    }
+                }
+            });
 
-        const ctxQuantum = document.getElementById('quantumChart').getContext('2d');
-        quantumChart = new Chart(ctxQuantum, {
-            type: 'bar',
-            data: {
-                labels: ['Qubit 0 (Angle Enc)', 'Qubit 1 (ZZ Feature Map)', 'Qubit 2 (Entanglement)', 'Qubit 3 (Rotational Gate)'],
-                datasets: [{ label: 'Sensitivity (ΔP)', data: [0.31, 0.22, 0.15, 0.08], backgroundColor: '#7e22ce', borderRadius: 4 }]
-            },
-            options: { 
-                indexAxis: 'y', 
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } } 
-            }
-        });
-    }
-
-    function recalculateRisk() {
-        const ageVal = parseFloat(document.getElementById('ageFactor').value) || 0.25;
-        const cholVal = parseFloat(document.getElementById('cholFactor').value) || 235;
-        const qubits = parseInt(document.getElementById('qubitFactor').value) || 12;
-        const cutoff = parseFloat(document.getElementById('cutoffSlider').value) || 0.45;
-
-        // Dynamic formula incorporating user inputs
-        let score = (ageVal * 0.8) + (cholVal / 600) + (qubits * 0.01);
-        score = Math.min(Math.max(score, 0.12), 0.95); // Bound between 12% and 95%
-
-        // UI Updates
-        document.getElementById('scoreDisplay').innerText = (score * 100).toFixed(1) + '%';
-        document.getElementById('cutoffVal').innerText = cutoff.toFixed(2);
-        document.getElementById('thresholdDisplay').innerText = (cutoff * 100).toFixed(1) + '%';
-
-        const riskLabel = document.getElementById('riskLabel');
-        if (score >= cutoff) {
-            riskLabel.innerText = 'HIGH RISK';
-            riskLabel.className = 'metric-val text-danger';
-        } else {
-            riskLabel.innerText = 'LOW / MODERATE RISK';
-            riskLabel.className = 'metric-val text-success';
+            const ctxQuantum = document.getElementById('quantumChart').getContext('2d');
+            quantumChart = new Chart(ctxQuantum, {
+                type: 'pie',
+                data: {
+                    labels: ['Qubit 0 (Angle Enc)', 'Qubit 1 (ZZ Feature Map)', 'Qubit 2 (Entanglement)', 'Qubit 3 (Rotational Gate)'],
+                    datasets: [{ 
+                        label: 'Sensitivity (ΔP)', 
+                        data: [0.31, 0.22, 0.15, 0.08], 
+                        backgroundColor: ['#7e22ce', '#a855f7', '#d8b4fe', '#f3e8ff'], 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'right', labels: { color: '#475569', font: { size: 10 } } } 
+                    }
+                }
+            });
         }
 
-        // Dynamically update SHAP chart values based on user factors if chart exists
-        if (shapChart) {
-            const cholNorm = Math.min(Math.max(cholVal / 600, 0.05), 0.65);
-            shapChart.data.datasets[0].data = [
-                parseFloat(cholNorm.toFixed(2)), 
-                parseFloat(ageVal.toFixed(2)), 
-                0.18, 
-                0.10
-            ];
-            shapChart.update();
-        }
-    }
+        function recalculateRisk() {
+            const ageVal = parseFloat(document.getElementById('ageFactor').value) || 0.25;
+            const cholVal = parseFloat(document.getElementById('cholFactor').value) || 235;
+            const qubits = parseInt(document.getElementById('qubitFactor').value) || 12;
+            const cutoff = parseFloat(document.getElementById('cutoffSlider').value) || 0.45;
 
-    window.onload = function() {
-        initCharts();
-        recalculateRisk();
-    };
-</script>
+            // Dynamic formula incorporating user inputs
+            let score = (ageVal * 0.8) + (cholVal / 600) + (qubits * 0.01);
+            score = Math.min(Math.max(score, 0.12), 0.95); // Bound between 12% and 95%
+
+            // UI Updates
+            document.getElementById('scoreDisplay').innerText = (score * 100).toFixed(1) + '%';
+            document.getElementById('cutoffVal').innerText = cutoff.toFixed(2);
+            document.getElementById('thresholdDisplay').innerText = (cutoff * 100).toFixed(1) + '%';
+
+            const riskLabel = document.getElementById('riskLabel');
+            if (score >= cutoff) {
+                riskLabel.innerText = 'HIGH RISK';
+                riskLabel.className = 'metric-val text-danger';
+            } else {
+                riskLabel.innerText = 'LOW / MODERATE RISK';
+                riskLabel.className = 'metric-val text-success';
+            }
+
+            // Dynamically update SHAP chart values based on user factors if chart exists
+            if (shapChart) {
+                const cholNorm = Math.min(Math.max(cholVal / 600, 0.05), 0.65);
+                shapChart.data.datasets[0].data = [
+                    parseFloat(cholNorm.toFixed(2)),
+                    parseFloat(ageVal.toFixed(2)),
+                    0.18,
+                    0.10
+                ];
+                shapChart.update();
+            }
+        }
+
+        window.onload = function () {
+            initCharts();
+            recalculateRisk();
+        };
+    </script>
 
 </body>
+
 </html>
