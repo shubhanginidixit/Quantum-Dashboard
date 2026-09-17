@@ -1,0 +1,22 @@
+# ──────────────────────────────────────────────────────────────
+# Neutron – Hybrid Quantum-Classical Disease Detection Platform
+# SIH Problem Statement SIH26139
+# ──────────────────────────────────────────────────────────────
+
+# Google Agent Development Kit
+google-adk>=1.2.0
+
+# Data & ML
+pandas>=2.1.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
+shap>=0.45.0
+
+# Schema validation
+pydantic>=2.6.0
+
+# Google Cloud Firestore (optional – mock fallback included)
+google-cloud-firestore>=2.16.0
+
+# Utilities
+python-dotenv>=1.0.0
