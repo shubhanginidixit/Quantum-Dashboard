@@ -5,10 +5,11 @@
 
 ---
 
-## 🚀 Instant Live Web Dashboard (Zero Install)
+## 🚀 Instant Live Web Dashboards (Zero Install)
 
-- 🌐 **Live Web Application (GitHub Pages):** [https://shubhanginidixit.github.io/Quantum-Dashboard/](https://shubhanginidixit.github.io/Quantum-Dashboard/)
-- 💻 **Direct Offline Access:** Simply double-click [`index.html`](file:///c:/Users/Admin/OneDrive/Documents/Quantum/index.html) in your browser — zero installation or server required.
+- 🌐 **Primary Clinical Screening & Agents Portal (Original):** [https://shubhanginidixit.github.io/Quantum-Dashboard/](https://shubhanginidixit.github.io/Quantum-Dashboard/)
+- 🔬 **Research-Grounded Benchmark & Policy Dashboard (New):** [https://shubhanginidixit.github.io/Quantum-Dashboard/research_dashboard.html](https://shubhanginidixit.github.io/Quantum-Dashboard/research_dashboard.html)
+- 💻 **Direct Offline Access:** Double-click [`index.html`](file:///c:/Users/Admin/OneDrive/Documents/Quantum/index.html) or [`research_dashboard.html`](file:///c:/Users/Admin/OneDrive/Documents/Quantum/research_dashboard.html) in your browser.
 - 📦 **GitHub Repository:** [https://github.com/shubhanginidixit/Quantum-Dashboard](https://github.com/shubhanginidixit/Quantum-Dashboard)
 
 
